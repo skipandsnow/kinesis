@@ -21,7 +21,7 @@ const loadConfig = (key, fallback) => {
 }
 
 
-const center = L.latLng(loadConfig('latitude', 53.338228), loadConfig('longitude', -6.259323));
+const center = L.latLng(loadConfig('latitude', 25.0204), loadConfig('longitude', 121.4951));
 
 
 const map = L.map('map', {
@@ -35,7 +35,6 @@ const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
-
 
 // L.Routing.control({
 //     waypoints: [
