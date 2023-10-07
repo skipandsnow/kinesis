@@ -36,6 +36,17 @@ const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
+// Add search bar to the map
+// L.Control.geocoder().addTo(map);
+L.Control.geocoder({
+  defaultMarkGeocode: false
+})
+  .on('markgeocode', function(e) {
+    if (!initMain(e)) {
+        addStep(e.geocode.center);
+    }
+  }).addTo(map);
+
 // L.Routing.control({
 //     waypoints: [
 //         L.latLng(53.338228, -6.259323),
@@ -141,16 +152,16 @@ const random = (x) => {
 // return true if initialized marker, false if already initialized
 function initMain(e) {
     if (marker === null) {
-        marker = L.marker(e.latlng, {draggable: true});
-        if (teleport(e.latlng)) {
+        marker = L.marker(e.geocode.center, {draggable: true});
+        if (teleport(e.geocode.center)) {
             marker.addTo(map);
 
             marker.on('mousedown', function(e) {
-                markerLastPos = e.latlng;
+                markerLastPos = e.geocode.center;
             });
 
             marker.on('mouseup', function(e) {
-                if (!teleport(e.latlng)) {
+                if (!teleport(e.geocode.center)) {
                     marker.setLatLng(markerLastPos);
                 }
             });
